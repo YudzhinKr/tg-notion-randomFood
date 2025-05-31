@@ -1,6 +1,7 @@
 require('dotenv').config();
 const TelegramBot = require('node-telegram-bot-api');
 const { Client } = require('@notionhq/client');
+const express = require('express');
 
 const { addFoodHandler, handleCallbackQuery, userState } = require('./handlers/addFood');
 const { deleteFoodHandler, handleDeleteCallback } = require('./handlers/deleteFood'); // deleteState більше не потрібен в імпорті
@@ -71,3 +72,15 @@ bot.on('callback_query', async (callbackQuery) => {
 });
 
 console.log('Бот запущено 🚀');
+
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.get('/ping', (req, res) => {
+  res.send('✅ Bot is alive');
+});
+
+app.listen(PORT, () => {
+  console.log(`🌐 Web server is listening on port ${PORT}`);
+});
